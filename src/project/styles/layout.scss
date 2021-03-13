@@ -1,0 +1,21 @@
+.app-container {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
+.route-view-component {
+  height: 100%;
+  width: 100%;
+}
+
+.app-main {
+  position: relative;
+  height: 0; // TODO ???
+}
+
+.aside-component {
+  overflow: auto;
+  background-color: #fff;
+  border-bottom: #eee 2px solid;
+  border-top: #eee 2px solid;
+}
