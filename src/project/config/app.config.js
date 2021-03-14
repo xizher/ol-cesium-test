@@ -40,14 +40,14 @@ export default {
               'exceptions': 'application/vnd.ogc.se_inimage'
             }
           }, {
-            name: '广佛地铁站点',
-            type: 'wfs',
-            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json'
-          }, {
             name: '广佛地铁线路',
             type: 'wfs',
             url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:subway&outputFormat=application/json'
-          }
+          }, {
+            name: '广佛地铁站点',
+            type: 'wfs',
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json'
+          },
         ]
       }
     }

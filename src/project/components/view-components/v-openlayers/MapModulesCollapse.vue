@@ -2,8 +2,7 @@
   <div class="map-modules-collapse">
     <el-collapse>
       <el-collapse-item title="图层控制">
-        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+        <LayerControl />
       </el-collapse-item>
       <el-collapse-item title="底图控制">
         <BasemapControl />
@@ -27,11 +26,13 @@
 import { } from 'vue'
 import BasemapControl from './map-modules-collapse-items/BasemapControl.vue'
 import BaseToolBox from './map-modules-collapse-items/BaseToolBox.vue'
+import LayerControl from './map-modules-collapse-items/LayerControl.vue'
 export default {
   name: 'MapModulesCollapse',
   components: {
     BasemapControl,
     BaseToolBox,
+    LayerControl,
   },
   setup () {
 
