@@ -13,3 +13,7 @@
   transform: translateX(-64px);
   opacity: 0;
 }
+
+.flip-list-move {
+  transition: transform 0.8s ease;
+}

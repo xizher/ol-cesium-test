@@ -1,27 +1,42 @@
 <template>
-  <div>
-    <el-tree
-      v-model:data="layerList"
-      :allow-drop="handleAllowDrop"
-      node-key="id"
-      draggable
+  <div class="layer-control">
+    <transition-group
+      name="flip-list"
+      tag="div"
     >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ data.name }}</span>
-          <span>
+      <el-card
+        v-for="(item, index) in layerFormatList"
+        :key="item.id"
+        class="layer-item"
+        :body-style="{
+          padding: '8px 4px'
+        }"
+      >
+        <div class="layer-item-content">
+          <div class="level-control">
+            <a @click="handleChangeLevel(item.level, item.level + 1, layerList[index])">↑</a>
+            <a @click="handleChangeLevel(item.level, item.level - 1, layerList[index])">↓</a>
+          </div>
+          <div>{{ item.name }}</div>
+          <div class="opacity-control">
+            <el-slider
+              v-model="layerList[index].opacity"
+              :min="0"
+              :max="1"
+              :step="0.1"
+              :show-tooltip="false"
+            />
+          </div>
+          <div class="visible-control">
             <input
               type="checkbox"
-              :checked="data.visible"
-              @change="e => handleChange(e.target.checked, data)"
+              :checked="item.visible"
+              @change="e => handleChangeVisible(e.target.checked, layerList[index])"
             >
-            <a @click="handleTest(data, node)">
-              Delete
-            </a>
-          </span>
-        </span>
-      </template>
-    </el-tree>
+          </div>
+        </div>
+      </el-card>
+    </transition-group>
   </div>
 </template>
 
@@ -33,25 +48,46 @@ export default {
   name: 'LayerControl',
   setup () {
     const [webMap] = useMap()
-    const [layerList, layerPool] = useLayerList(webMap.layerOperation)
-    function handleAllowDrop (draggingNode, dropNode, type) {
-      return type !== 'inner'
+    const [layerList, layerFormatList] = useLayerList(webMap.layerOperation)
+    function handleChangeVisible (visible, item) {
+      item.visible = visible
     }
-    function handleTest (data, node) {
-      console.log(data, node)
-    }
-    function handleChange (visible, data) {
-      layerPool.get(data.name).target.getV
+    function handleChangeLevel (level, newLevel, item) {
+      if (newLevel < 0 || newLevel >= layerList.length) {
+        return
+      }
+      layerList.find(item => item.level === newLevel).level = level
+      item.level = newLevel
+      console.log(layerFormatList.value)
     }
     return {
-      handleAllowDrop, handleTest, handleChange, layerList
+      layerList, handleChangeVisible, handleChangeLevel, layerFormatList
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.custom-tree-node {
-  display: flex;
+.layer-control {
+  .layer-item {
+    margin: 8px;
+  }
+  .level-control {
+    cursor: pointer;
+    :hover {
+      border-bottom: 1px solid #000;
+    }
+  }
+  .layer-item-content {
+    display: flex;
+  }
+  .opacity-control {
+    margin-left: auto;
+    width: 50px;
+    margin-right: 8px;
+  }
+  :deep(.el-slider__runway) {
+    margin: 8px 0;
+  }
 }
 </style>
