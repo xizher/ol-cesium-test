@@ -91,7 +91,9 @@ export default defineComponent({
 
     const clipTool = new ClipTool(webMap)
     clipTool.on('tool-done', () => {
-      // TODO
+      const geometries = clipTool.getResult().map(feat => feat.getGeometry())
+      const feats = webMap.mapElementDisplay.parseHighlightGraphics(geometries)
+      webMap.mapElementDisplay.setHighlight(feats)
     })
     const selectedBoundary = ref('')
     watch(selectedBoundary, val => {
