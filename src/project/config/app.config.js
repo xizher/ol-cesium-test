@@ -28,7 +28,7 @@ export default {
       layerOperationOptions: {
         layerItems: [
           {
-            name: '广州区县级行政区划',
+            name: '广州区县级行政区划/wms',
             type: 'wms',
             url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/wms',
             params: {
@@ -38,15 +38,23 @@ export default {
               'STYLES': '',
               'LAYERS': 'webgis-ol-base:boundary',
               'exceptions': 'application/vnd.ogc.se_inimage'
-            }
+            },
+            visible: true
+          }, {
+            name: '广州区县级行政区划',
+            type: 'wfs',
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:boundary&outputFormat=application/json',
+            visible: false
           }, {
             name: '广佛地铁线路',
             type: 'wfs',
-            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:subway&outputFormat=application/json'
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:subway&outputFormat=application/json',
+            visible: true
           }, {
             name: '广佛地铁站点',
             type: 'wfs',
-            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json'
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json',
+            visible: true
           },
         ]
       }
