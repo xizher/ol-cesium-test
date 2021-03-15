@@ -58,7 +58,6 @@ export default {
       }
       layerList.find(item => item.level === newLevel).level = level
       item.level = newLevel
-      console.log(layerFormatList.value)
     }
     return {
       layerList, handleChangeVisible, handleChangeLevel, layerFormatList
