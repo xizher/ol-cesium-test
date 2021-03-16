@@ -9,6 +9,7 @@
   "dependencies": {
     "@turf/turf": "^6.3.0",
     "axios": "^0.21.1",
+    "cesium": "^1.79.1",
     "element-plus": "^1.0.2-beta.33",
     "ol": "^6.5.0",
     "vue": "^3.0.5",
@@ -16,10 +17,12 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",
+    "@types/cesium": "^1.67.13",
     "@types/ol": "^6.4.2",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "@vitejs/plugin-vue": "^1.1.5",
+    "@vitejs/plugin-vue-jsx": "^1.1.2",
     "@vue/compiler-sfc": "^3.0.5",
     "eslint": "^7.22.0",
     "eslint-plugin-vue": "^7.7.0",
