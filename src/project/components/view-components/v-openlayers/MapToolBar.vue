@@ -27,6 +27,7 @@ export default {
       { toolKey: 'zoom-home', icon: 'el-icon-s-home' },
       { toolKey: 'fullscreen', icon: 'el-icon-full-screen' },
       { toolKey: 'fullmap', icon: 'el-icon-bangzhu' },
+      { toolKey: 'clear', icon: 'el-icon-delete' },
     ]
 
     const [webMap] = useMap()

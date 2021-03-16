@@ -46,7 +46,9 @@
         <el-button @click="execute">
           执行分析
         </el-button>
-        <el-button>清理结果</el-button>
+        <el-button @click="clear">
+          清理结果
+        </el-button>
       </el-form-item>
     </el-form>
   </ToolboxContainer>
@@ -90,10 +92,11 @@ export default defineComponent({
     }
 
     const clipTool = new ClipTool(webMap)
+    let highlightFeatures = []
     clipTool.on('tool-done', () => {
       const geometries = clipTool.getResult().map(feat => feat.getGeometry())
-      const feats = webMap.mapElementDisplay.parseHighlightGraphics(geometries)
-      webMap.mapElementDisplay.setHighlight(feats)
+      highlightFeatures = webMap.mapElementDisplay.parseHighlightGraphics(geometries)
+      webMap.mapElementDisplay.setHighlight(highlightFeatures)
     })
     const selectedBoundary = ref('')
     watch(selectedBoundary, val => {
@@ -107,12 +110,19 @@ export default defineComponent({
         const features = layer.getSource().getFeatures()
         clipTool.setTarget(features)
       } else if (val === 'subway') {
-        // TODO
+        const layer = layerOperation.getLayerByName('广佛地铁线路')
+        const features = layer.getSource().getFeatures()
+        clipTool.setTarget(features)
       }
     })
 
     function execute () {
       clipTool.execute()
+    }
+
+    function clear () {
+      webMap.mapElementDisplay.removeHighlight(highlightFeatures)
+      clipTool.clearResult()
     }
 
     return {
@@ -122,6 +132,7 @@ export default defineComponent({
       selectedBoundary,
       selectedStatType,
       execute,
+      clear,
     }
   },
 })
