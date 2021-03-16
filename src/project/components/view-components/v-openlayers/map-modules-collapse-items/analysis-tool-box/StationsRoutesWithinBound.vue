@@ -76,10 +76,11 @@ export default defineComponent({
     let features = layer.getSource().getFeatures()
     if (features.length === 0) {
       layerOperation.setLayerVisible('广州区县级行政区划', true)
-      layer.on('prerender', () => {
+      const handler = layer.on('prerender', () => {
         features = layer.getSource().getFeatures()
         initFeatureList(features)
         layerOperation.setLayerVisible('广州区县级行政区划', false)
+        layer.un('prerender', handler.listener)
       })
     } else {
       initFeatureList(features)
