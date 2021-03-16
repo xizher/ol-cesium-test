@@ -18,7 +18,7 @@ module.exports = {
     }
   },
   'plugins': [
-    'vue'
+    'vue',
   ],
   'globals': {
     'esri': 'readonly'

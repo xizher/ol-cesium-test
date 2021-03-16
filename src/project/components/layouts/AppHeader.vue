@@ -30,6 +30,7 @@ import appConfig from '../../config/app.config'
 const { appHeaderConfig: config } = appConfig
 const { defaultActive, menuItems } = config.menuConfig
 const router = useRouter()
+router.push(defaultActive)
 const handleSelect = path => router.push(path)
 /* eslint-enable no-unused-vars */
 </script>
