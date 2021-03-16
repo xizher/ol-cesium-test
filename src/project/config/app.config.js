@@ -49,12 +49,41 @@ export default {
             name: '广佛地铁线路',
             type: 'wfs',
             url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:subway&outputFormat=application/json',
-            visible: true
+            visible: true,
+            style: {
+              uniqueField: 'name',
+              items: [
+                {
+                  value: '广州地铁2号线',
+                  style: {
+                    stroke: {
+                      color: '#0000ff',
+                      width: 2
+                    }
+                  }
+                }, {
+                  value: '广州地铁5号线',
+                  style: {
+                    stroke: {
+                      color: '#ff0000',
+                      width: 2
+                    }
+                  }
+                }
+              ]
+            }
           }, {
             name: '广佛地铁站点',
             type: 'wfs',
             url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json',
-            visible: true
+            visible: true,
+            style: {
+              image: {
+                styleType: 'circle',
+                fill: { color: '#000000' },
+                radius: 2
+              }
+            }
           },
         ]
       }
