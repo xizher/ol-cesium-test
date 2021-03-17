@@ -1,33 +1,12 @@
 import { createRouter, createMemoryHistory } from 'vue-router'
+import appConfig from '../config/app.config'
 
 /** @type { import("vue-router").RouteRecordRaw[] } */
-const routes = [
-  {
-    path: '/',
-    name: 'VOpenlayers',
-    component: () => import('../views/VOpenlayers.vue')
-  }, {
-    path: '/cesium',
-    name: 'VCesium',
-    component: () => import('../views/VCesium.vue')
-  }, {
-    path: '/oc-linkage',
-    name: 'VOCLinkage',
-    component: () => import('../views/VOCLinkage.vue')
-  }, {
-    path: '/config',
-    name: 'VConfig',
-    component: () => import('../views/VConfig.vue')
-  }, {
-    path: '/api-docs',
-    name: 'VApiDocs',
-    component: () => import('../views/VApiDocs.vue')
-  }, {
-    path: '/about',
-    name: 'VAbout',
-    component: () => import('../views/VAbout.vue')
-  }
-]
+const routes = appConfig.appHeaderConfig.menuConfig.menuItems.map(item => ({
+  path: item.path,
+  name: item.name,
+  component: () => import(`../views/${item.name}.vue`)
+}))
 
 const router = createRouter({
   routes,

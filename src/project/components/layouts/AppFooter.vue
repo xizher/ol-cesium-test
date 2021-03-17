@@ -10,7 +10,7 @@
 <script setup>
 /* eslint-disable no-unused-vars */
 import MapFooterBar from '../map/map-footer-bar/MapFooterBar.vue'
-import LoadViewer from '../app/app-footer/LoadViewer.vue'
+import LoadViewer from '../app/app-footer/LoadingViewer.vue'
 /* eslint-enable no-unused-vars */
 </script>
 

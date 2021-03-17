@@ -4,12 +4,10 @@ import {
   WebMap
 } from '../../../zhd/dist/gis/cesium'
 import appConfig from '../../config/app.config'
-import { useLinkIn } from '../../../zhd/dist/vue-hooks/loading.hooks'
 
 /** @type { WebMap } */
 let webMap = null
 const loaded = ref(false)
-useLinkIn(loaded)
 
 /** @returns { [WebMap, import('vue').Ref<boolean>] } */
 function useMap () {

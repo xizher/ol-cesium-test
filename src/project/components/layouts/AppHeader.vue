@@ -14,7 +14,7 @@
         :key="index"
         :index="item.path"
       >
-        {{ item.name }}
+        {{ item.alias }}
       </el-menu-item>
     </el-menu>
     <TimeViewer />
