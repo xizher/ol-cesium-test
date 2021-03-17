@@ -10,10 +10,10 @@
     top="200px"
     :title="title"
     :visible="visible"
-    @cancel="visible = false"
+    @cancel="cancel"
   >
     <el-form
-      label-width="auto"
+      label-width="60px"
       label-position="left"
       size="mini"
     >
@@ -123,7 +123,13 @@ export default defineComponent({
 
     function clear () {
       webMap.mapElementDisplay.removeHighlight(highlightFeatures)
+      highlightFeatures = []
       clipTool.clearResult()
+    }
+
+    function cancel () {
+      clear()
+      visible.value = false
     }
 
     return {
@@ -134,6 +140,7 @@ export default defineComponent({
       selectedStatType,
       execute,
       clear,
+      cancel,
     }
   },
 })

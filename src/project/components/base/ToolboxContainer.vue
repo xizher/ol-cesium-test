@@ -10,11 +10,12 @@
       @mousedown="setDrap"
       @mouseup="draping = false"
       @mouseleave="draping = false"
-    >
+    />
+    <div class="toolbox-container-header">
       <div>{{ title }}</div>
       <div
         class="btn-clone"
-        @click="cancel"
+        @click="cancelToolBox"
       >
         <el-tag
           size="mini"
@@ -72,7 +73,7 @@ export default {
         style.right = 'auto'
       }
     }
-    function cancel () {
+    function cancelToolBox () {
       emit('cancel')
     }
     return {
@@ -80,7 +81,7 @@ export default {
       drapHandler,
       draping,
       setDrap,
-      cancel,
+      cancelToolBox,
     }
   }
 }
@@ -95,14 +96,25 @@ export default {
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   .drap-box {
+    position: absolute;
+    top: 0;
+    height: 45px;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    cursor: move;
+  }
+  .toolbox-container-header {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     height: 45px;
     padding: 0 8px;
     border-bottom: 1px solid #eee;
-    cursor: move;
+    pointer-events: none;
     .btn-clone {
       margin-left: auto;
+      pointer-events: auto;
       cursor: pointer;
     }
   }
