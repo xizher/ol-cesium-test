@@ -12,7 +12,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="底图项">
-        <el-select v-model="selectKey">
+        <el-select v-model="selectedKey">
           <el-option
             v-for="item in list"
             :key="item"
@@ -35,11 +35,11 @@ export default {
 
     const [webMap] = useMap()
     const [list] = useList(webMap.basemap)
-    const selectKey = useKey(webMap.basemap)
+    const selectedKey = useKey(webMap.basemap)
     const visible = useVisible(webMap.basemap)
 
     return {
-      list, selectKey, visible
+      list, selectedKey, visible
     }
   }
 }

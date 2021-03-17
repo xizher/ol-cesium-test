@@ -4,11 +4,11 @@ import {
   MapCursor,
   MapElementDisplay,
   MapTools,
-  WebMap
+  WebMap,
+  LayerOperation,
 } from '../../../zhd/dist/gis/openlayers'
 import appConfig from '../../config/app.config'
 import { useLinkIn } from '../../../zhd/dist/vue-hooks/loading.hooks'
-import { LayerOperation } from '../../../zhd/dist/gis/openlayers/plugins/layer-operation/layer-operation'
 
 /** @type { WebMap } */
 let webMap = null
