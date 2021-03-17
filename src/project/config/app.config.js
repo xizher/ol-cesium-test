@@ -2,7 +2,7 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/',
+      defaultActive: '/cesium',
       menuItems: [
         { name: 'Openlayers', path: '/' },
         { name: 'Cesium', path: '/cesium' },
@@ -86,12 +86,27 @@ export default {
             }
           },
         ]
+      },
+    },
+    cesium: {
+      baseUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.79.1/Build/Cesium/',
+      webMapOptions: {
+
+      },
+      basemapOptions: {
+        key: '天地图矢量'
       }
     }
   },
   viewOpenlayersConfig: {
     asideConfig: {
       showSlider: true,
+      defaultWidth: 300,
+    }
+  },
+  viewCesiumConfig: {
+    asideConfig: {
+      showSlider: false,
       defaultWidth: 300,
     }
   }
