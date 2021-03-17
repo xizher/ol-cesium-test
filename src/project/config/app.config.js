@@ -109,5 +109,6 @@ export default {
       showSlider: false,
       defaultWidth: 300,
     }
-  }
+  },
+  apiDocsIndexUrl: `${window.location.origin}/docs/index.html`
 }
