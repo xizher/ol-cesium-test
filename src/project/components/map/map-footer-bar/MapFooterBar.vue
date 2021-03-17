@@ -1,6 +1,6 @@
 <template>
   <div v-if="loaded">
-    <CoordinateViewer />
+    <CoordinateViewer v-if="route.path === '/'" />
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 import { } from 'vue'
 import useMap from '../../../hooks/webmap/useOlMap'
 import CoordinateViewer from './coordinate-viewer/CoordinateViewer.vue'
+import { useRoute } from 'vue-router'
 export default {
   name: 'MapFooterBar',
   components: {
@@ -15,8 +16,9 @@ export default {
   },
   setup () {
     const [, loaded] = useMap()
+    const route = useRoute()
     return {
-      loaded
+      loaded, route
     }
   }
 }
