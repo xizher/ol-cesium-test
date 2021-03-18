@@ -1,4 +1,4 @@
-import { onMounted, ref } from '@vue/runtime-core'
+import { onMounted, ref } from 'vue'
 import {
   Basemap,
   MapCursor,
@@ -12,7 +12,7 @@ import appConfig from '../../config/app.config'
 /** @type { WebMap } */
 let webMap = null
 const loaded = ref(false)
-/** @returns { [WebMap, import('@vue/reactivity').Ref<boolean>] } */
+/** @returns { [WebMap, import('vue').Ref<boolean>] } */
 function useMap () {
   return [webMap, loaded]
 }
