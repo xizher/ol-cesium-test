@@ -4,6 +4,9 @@ import {
   WebMap
 } from '../../../zhd/dist/gis/cesium'
 import appConfig from '../../config/app.config'
+import { baseUtils } from '../../../zhd/dist/js-utils'
+baseUtils.loadCss(appConfig.webMapConfig.cesium.cssUrl)
+// baseUtils.loadJs(appConfig.webMapConfig.cesium.jsUrl)
 
 /** @type { WebMap } */
 let webMap = null

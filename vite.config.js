@@ -5,7 +5,25 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 8080
+    port: 8080,
+    proxy: {
+      // '/supermap': 'http://localhost:9540/supermap',
+      '/supermap': {
+        target: 'http://localhost:9540/supermap',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/supermap/, '')
+      }
+    },
+  },
+  resolve: {
+    alias: {
+      // 'cesium': 'http://localhost:8080/supermap/Build/Cesium/Cesium.js'
+    }
+  },
+  optimizeDeps: {
+    exclude: [
+      // 'cesium'
+    ]
   },
   plugins: [
     vue(),

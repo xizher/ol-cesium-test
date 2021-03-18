@@ -1,13 +1,13 @@
 <template>
   <div class="route-view-component">
-    <MapContainer />
+    <MapContainer :use-create-map="useCreateWebMap" />
   </div>
   <MapToolBar />
   <el-aside
     class="aside-component"
     :width="widthStr"
   >
-    <MapModulesCollapse />
+    <MapModulesCollapse v-if="loaded" />
     <AsideSlider
       v-if="showSlider"
       :aside-width="width"
@@ -23,6 +23,8 @@ import AsideSlider from '../components/app/app-main/aside-slider/AsideSlider.vue
 import MapModulesCollapse from '../components/view-components/v-openlayers/MapModulesCollapse.vue'
 import MapToolBar from '../components/view-components/v-openlayers/MapToolBar.vue'
 import appConfig from '../config/app.config'
+import useMap, { useCreateWebMap } from '../hooks/webmap/useOlMap'
+
 export default {
   name: 'VOpenlayers',
   components: {
@@ -35,10 +37,11 @@ export default {
     const { showSlider, defaultWidth } = appConfig.viewOpenlayersConfig.asideConfig
     const width = ref(defaultWidth)
     const widthStr = computed(() => `${width.value}px`)
+    const [, loaded] = useMap()
 
 
     return {
-      widthStr, showSlider, width
+      widthStr, showSlider, width, loaded, useCreateWebMap
     }
   }
 }

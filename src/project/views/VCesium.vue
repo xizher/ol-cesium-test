@@ -1,6 +1,6 @@
 <template>
   <div class="route-view-component">
-    <MapContainer type="cesium" />
+    <MapContainer :use-create-map="useCreateWebMap" />
   </div>
   <el-aside
     class="aside-component"
@@ -21,7 +21,7 @@ import AsideSlider from '../components/app/app-main/aside-slider/AsideSlider.vue
 import MapModulesCollapse from '../components/view-components/v-cesium/MapModulesCollapse.vue'
 import appConfig from '../config/app.config'
 import { ref, computed } from 'vue'
-import useMap from '../hooks/webmap/useCesiumMap'
+import useMap, { useCreateWebMap } from '../hooks/webmap/useCesiumMap'
 export default {
   name: 'VCesium',
   components: {
@@ -37,7 +37,7 @@ export default {
 
 
     return {
-      widthStr, showSlider, width, loaded
+      widthStr, showSlider, width, loaded, useCreateWebMap
     }
   }
 }
