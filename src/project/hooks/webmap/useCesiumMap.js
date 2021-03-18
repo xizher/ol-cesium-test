@@ -1,7 +1,8 @@
 import { onMounted, ref } from 'vue'
 import {
   Basemap,
-  WebMap
+  WebMap,
+  MapEntities
 } from '../../../zhd/dist/gis/cesium'
 import appConfig from '../../config/app.config'
 import { baseUtils } from '../../../zhd/dist/js-utils'
@@ -24,6 +25,7 @@ export function useCreateWebMap (mapId) {
   onMounted(() => {
     webMap = new WebMap(mapId, cesiumConfig.webMapOptions)
       .use(new Basemap(cesiumConfig.basemapOptions))
+      .use(new MapEntities())
     loaded.value = true
     window.webMap = webMap // 开发模式下使用
   })

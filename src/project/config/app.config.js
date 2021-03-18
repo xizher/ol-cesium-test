@@ -2,7 +2,7 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/openlayers',
+      defaultActive: '/cesium',
       menuItems: [
         { name: 'VOpenlayers', alias: 'Openlayers', path: '/openlayers' },
         { name: 'VCesium', alias: 'Cesium/Supermap', path: '/cesium' },
@@ -90,9 +90,9 @@ export default {
     },
     cesium: {
       // baseUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.79.1/Build/Cesium/',
+      // cssUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.79.1/Build/Cesium/Widgets/widgets.css',
       baseUrl: '/supermap/Build/Cesium/',
       cssUrl: '/supermap/Build/Cesium/Widgets/widgets.css',
-      jsUrl: '/supermap/Build/Cesium/Cesium.js',
       webMapOptions: {
 
       },
