@@ -13,12 +13,23 @@
         }"
       >
         <div class="layer-item-content">
-          <div class="level-control">
-            <a @click="handleChangeLevel(item.level, item.level + 1, layerList[index])">↑</a>
-            <a @click="handleChangeLevel(item.level, item.level - 1, layerList[index])">↓</a>
+          <div
+            class="content-item zoom-control"
+            @click="zoomTo(item.name)"
+          >
+            ⊕
           </div>
-          <div>{{ item.name }}</div>
-          <div class="opacity-control">
+          <div class="content-item layer-name">
+            {{ item.name }}
+          </div>
+          <div class="content-item visible-control">
+            <input
+              type="checkbox"
+              :checked="item.visible"
+              @change="e => handleChangeVisible(e.target.checked, layerList[index])"
+            >
+          </div>
+          <div class="content-item opacity-control">
             <el-slider
               v-model="layerList[index].opacity"
               :min="0"
@@ -27,12 +38,12 @@
               :show-tooltip="false"
             />
           </div>
-          <div class="visible-control">
-            <input
-              type="checkbox"
-              :checked="item.visible"
-              @change="e => handleChangeVisible(e.target.checked, layerList[index])"
-            >
+          <div class="content-item">
+            <el-icon class="el-icon-notebook-2" />
+          </div>
+          <div class="content-item level-control">
+            <a @click="handleChangeLevel(item.level, item.level + 1, layerList[index])">↑</a>
+            <a @click="handleChangeLevel(item.level, item.level - 1, layerList[index])">↓</a>
           </div>
         </div>
       </el-card>
@@ -46,6 +57,8 @@ import { useLayerList } from '../../../../../zhd/dist/gis/openlayers/hooks/layer
 import useMap from '../../../../hooks/webmap/useOlMap'
 export default {
   name: 'LayerControl',
+  components: {
+  },
   setup () {
     const [webMap] = useMap()
     const [layerList, layerFormatList] = useLayerList(webMap.layerOperation)
@@ -59,8 +72,11 @@ export default {
       layerList.find(item => item.level === newLevel).level = level
       item.level = newLevel
     }
+    function zoomTo (name) {
+      webMap.layerOperation.zoomToLayer(name)
+    }
     return {
-      layerList, handleChangeVisible, handleChangeLevel, layerFormatList
+      layerList, handleChangeVisible, handleChangeLevel, layerFormatList, zoomTo
     }
   },
 }
@@ -71,19 +87,31 @@ export default {
   .layer-item {
     margin: 8px;
   }
+  .layer-item-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .layer-name {
+    flex: auto;
+    width: calc(100% - 1em - 2em);
+  }
+  .opacity-control {
+    width: 40px;
+    margin-right: 18px;
+  }
   .level-control {
+    margin-left: auto;
     cursor: pointer;
     :hover {
       border-bottom: 1px solid #000;
     }
   }
-  .layer-item-content {
-    display: flex;
+  .zoom-control {
+    cursor: pointer;
+    width: 1em;
   }
-  .opacity-control {
-    margin-left: auto;
-    width: 50px;
-    margin-right: 8px;
+  .visible-control {
+    width: 2em;
   }
   :deep(.el-slider__runway) {
     margin: 8px 0;
