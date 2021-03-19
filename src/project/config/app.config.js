@@ -2,10 +2,11 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/cesium',
+      defaultActive: '/supermap',
       menuItems: [
         { name: 'VOpenlayers', alias: 'Openlayers', path: '/openlayers' },
-        { name: 'VCesium', alias: 'Cesium/Supermap', path: '/cesium' },
+        { name: 'VCesium', alias: 'Cesium', path: '/cesium' },
+        { name: 'VSupermap', alias: 'Supermap', path: '/supermap' },
         { name: 'VOCLinkage', alias: 'OC联动', path: '/oc-linkage' },
         { name: 'VConfig', alias: '全局配置', path: '/config' },
         { name: 'VApiDocs', alias: 'API文档', path: '/api-docs' },
@@ -91,7 +92,17 @@ export default {
     cesium: {
       // baseUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.79.1/Build/Cesium/',
       // cssUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.79.1/Build/Cesium/Widgets/widgets.css',
-      baseUrl: '/supermap/Build/Cesium/',
+      baseUrl: '/Cesium/Build/Cesium/',
+      cssUrl: '/Cesium/Build/Cesium/Widgets/widgets.css',
+      webMapOptions: {
+
+      },
+      basemapOptions: {
+        key: '天地图矢量'
+      }
+    },
+    supermap: {
+      jsUrl: '/supermap/Build/Cesium/Cesium.js',
       cssUrl: '/supermap/Build/Cesium/Widgets/widgets.css',
       webMapOptions: {
 
@@ -99,7 +110,7 @@ export default {
       basemapOptions: {
         key: '天地图矢量'
       }
-    }
+    },
   },
   viewOpenlayersConfig: {
     asideConfig: {
@@ -108,6 +119,12 @@ export default {
     }
   },
   viewCesiumConfig: {
+    asideConfig: {
+      showSlider: false,
+      defaultWidth: 300,
+    }
+  },
+  viewSupermapConfig: {
     asideConfig: {
       showSlider: false,
       defaultWidth: 300,

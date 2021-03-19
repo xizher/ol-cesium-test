@@ -12,6 +12,11 @@ export default defineConfig({
         target: 'http://localhost:9540/supermap',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/supermap/, '')
+      },
+      '/Cesium': {
+        target: 'http://localhost:9540/Cesium',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/Cesium/, '')
       }
     },
   },
