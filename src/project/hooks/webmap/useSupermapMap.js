@@ -3,7 +3,8 @@ import {
   initModules,
   WebMap,
   Basemap,
-  MapEntities
+  MapEntities,
+  MapCamera,
 } from '../../../zhd/dist/gis/supermap'
 import appConfig from '../../config/app.config'
 
@@ -27,6 +28,7 @@ export function useCreateWebMap (mapId) {
       webMap = new WebMap(mapId, supermapConfig.webMapOptions)
         .use(new Basemap(supermapConfig.basemapOptions))
         .use(new MapEntities())
+        .use(new MapCamera())
       loaded.value = true
       window.webMap = webMap // 开发模式下使用
     })

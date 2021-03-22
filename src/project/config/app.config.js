@@ -2,7 +2,7 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/openlayers',
+      defaultActive: '/supermap',
       menuItems: [
         { name: 'VOpenlayers', alias: 'Openlayers', path: '/openlayers' },
         { name: 'VCesium', alias: 'Cesium', path: '/cesium' },
