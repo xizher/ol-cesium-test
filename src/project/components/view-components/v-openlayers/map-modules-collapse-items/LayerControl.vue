@@ -38,7 +38,11 @@
               :show-tooltip="false"
             />
           </div>
-          <div class="content-item">
+          <div
+            v-if="item.type === 'wfs'"
+            class="content-item attributes-table"
+            @click="openAttributesTable(item.name)"
+          >
             <el-icon class="el-icon-notebook-2" />
           </div>
           <div class="content-item level-control">
@@ -48,16 +52,23 @@
         </div>
       </el-card>
     </transition-group>
+    <AttributesTable
+      :visible="attributesTableVisible"
+      :layer-name="layerName"
+      @cancel="attributesTableVisible = false"
+    />
   </div>
 </template>
 
 <script>
-import { } from 'vue'
+import { ref } from 'vue'
 import { useLayerList } from '../../../../../zhd/dist/gis/openlayers/hooks/layer-operation.hooks'
 import useMap from '../../../../hooks/webmap/useOlMap'
+import AttributesTable from '../../../base/AttributesTable.vue'
 export default {
   name: 'LayerControl',
   components: {
+    AttributesTable
   },
   setup () {
     const [webMap] = useMap()
@@ -75,8 +86,24 @@ export default {
     function zoomTo (name) {
       webMap.layerOperation.zoomToLayer(name)
     }
+
+    const attributesTableVisible = ref(false)
+    const layerName = ref('')
+    function openAttributesTable (name) {
+      layerName.value = ''
+      layerName.value = name
+      attributesTableVisible.value = true
+    }
+
     return {
-      layerList, handleChangeVisible, handleChangeLevel, layerFormatList, zoomTo
+      layerList,
+      handleChangeVisible,
+      handleChangeLevel,
+      layerFormatList,
+      zoomTo,
+      attributesTableVisible,
+      openAttributesTable,
+      layerName,
     }
   },
 }
@@ -112,6 +139,9 @@ export default {
   }
   .visible-control {
     width: 2em;
+  }
+  .attributes-table {
+    cursor: pointer;
   }
   :deep(.el-slider__runway) {
     margin: 8px 0;

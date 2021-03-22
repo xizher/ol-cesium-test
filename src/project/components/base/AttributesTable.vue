@@ -1,21 +1,30 @@
 <template>
   <ToolboxContainer
-    left="200px"
-    right="200px"
+    left="100px"
+    top="100px"
+    class="attributes-table-container"
     :title="`属性表：${layerName}`"
     :visible="visible"
     @cancel="cancel"
   >
     <el-table
       :data="attributesData"
-      style="width: 100%; height: 100%"
+      height="60vh"
+      style="width: 60vw"
+      size="mini"
+      @row-dblclick="zoomTo"
     >
+      <el-table-column
+        type="selection"
+        width="55"
+      />
       <el-table-column
         v-for="field in fields"
         :key="field"
         :fixed="field === '$index' ? true : false"
         :prop="field"
         :label="field"
+        :min-width="field === '$index' ? 65 : 100"
       />
     </el-table>
   </ToolboxContainer>
@@ -59,13 +68,29 @@ export default defineComponent({
       emit('cancel')
     }
 
+    function zoomTo (e) {
+      /** @type { import('ol/layer/Vector').default } */
+      const layer = webMap.layerOperation.getLayerByName(props.layerName)
+      const feature = layer.getSource().getFeatureById(e.$id)
+      const geometry = feature.getGeometry()
+      webMap.view.fit(geometry, {
+        duration: 500,
+        maxZoom: 16,
+      })
+    }
+
     return {
-      attributesData, fields, cancel
+      attributesData,
+      fields,
+      cancel,
+      zoomTo,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
-
+.attributes-table-container {
+  min-width: 60vw;
+}
 </style>
