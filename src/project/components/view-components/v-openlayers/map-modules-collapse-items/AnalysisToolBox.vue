@@ -11,7 +11,7 @@ import { defineAsyncComponent, defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'AnalysisToolBox',
   components: {
-    StationsRoutesWithinBound: defineAsyncComponent(() => import('./analysis-tool-box/StationsRoutesWithinBound.vue'))
+    StationsRoutesWithinBound: defineAsyncComponent(() => import('./analysis-tool-box/stations-routes-within-bound/StationsRoutesWithinBound.vue'))
   },
   setup () {
 

@@ -30,7 +30,9 @@
           />
         </el-select>
         <el-divider direction="vertical" />
-        <el-button>点击地图选择</el-button>
+        <el-button @click="selectBound">
+          点击地图选择
+        </el-button>
       </el-form-item>
       <el-form-item label="统计项">
         <el-radio-group v-model="selectedStatType">
@@ -55,10 +57,11 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRaw, watch } from 'vue'
-import useMap from '../../../../../hooks/webmap/useOlMap'
-import ToolboxContainer from '../../../../base/ToolboxContainer.vue'
-import { ClipTool } from '../../../../../../zhd/dist/gis/openlayers/toolbox/spatial-analysis/clip.tool'
+import { defineComponent, onMounted, onUnmounted, reactive, ref, toRaw, watch } from 'vue'
+import useMap from '../../../../../../hooks/webmap/useOlMap'
+import ToolboxContainer from '../../../../../base/ToolboxContainer.vue'
+import { ClipTool } from '../../../../../../../zhd/dist/gis/openlayers/toolbox/spatial-analysis/clip.tool'
+import HitTestFromBoundTool from './hit-test-from-bound-tool'
 
 export default defineComponent({
   name: 'StationsRoutesWithinBound',
@@ -132,6 +135,23 @@ export default defineComponent({
       visible.value = false
     }
 
+    const hitTestTool = new HitTestFromBoundTool(webMap.map, webMap.view, {
+      selectedBoundary,
+      layer
+    })
+    const toolName = 'hit-test-from-bound-tool'
+    watch(visible, v => {
+      if (v) {
+        webMap.mapTools.createCustomTool(toolName, hitTestTool)
+      } else {
+        webMap.mapTools.setMapTool('default')
+        webMap.mapTools.deleteTool(toolName)
+      }
+    }, { immediate: true })
+    function selectBound () {
+      webMap.mapTools.setMapTool(toolName)
+    }
+
     return {
       visible,
       title,
@@ -141,6 +161,7 @@ export default defineComponent({
       execute,
       clear,
       cancel,
+      selectBound,
     }
   },
 })
