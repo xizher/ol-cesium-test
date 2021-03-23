@@ -109,6 +109,12 @@ export default {
       },
       basemapOptions: {
         key: '天地图矢量'
+      },
+      map3dTileOptions: {
+        tilesetItems: [
+          { name: '局部楼层模型', url: '/3dtile_test_data/tileset.json', offsetHeight: 3690 }
+        ],
+        zoomItemName: '局部楼层模型'
       }
     },
   },

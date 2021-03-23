@@ -17,6 +17,11 @@ export default defineConfig({
         target: 'http://localhost:9540/Cesium',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/Cesium/, '')
+      },
+      '/3dtile_test_data': {
+        target: 'http://localhost:9540/3dtile_test_data',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/3dtile_test_data/, '')
       }
     },
   },
