@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "typedoc": "npx typedoc --out ./public/docs src/zhd/src/ --tsconfig src/zhd/tsconfig.json"
+    "typedoc": "npx typedoc --out ./docs src/zhd/src/ --tsconfig src/zhd/tsconfig.json"
   },
   "dependencies": {
     "@turf/turf": "^6.3.0",
