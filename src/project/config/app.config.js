@@ -136,5 +136,5 @@ export default {
       defaultWidth: 300,
     }
   },
-  apiDocsIndexUrl: `${window.location.origin}/docs/index.html`
+  apiDocsIndexUrl: `${window.location.origin}/zhd-api-docs`
 }

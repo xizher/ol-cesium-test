@@ -22,6 +22,11 @@ export default defineConfig({
         target: 'http://localhost:9540/3dtile_test_data',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/3dtile_test_data/, '')
+      },
+      '/zhd-api-docs': {
+        target: 'http://localhost:9540/zhd-api-docs',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/zhd-api-docs/, '')
       }
     },
   },
