@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, onUnmounted, reactive, ref, toRaw, watch } from 'vue'
+import { defineComponent, reactive, ref, toRaw, watch } from 'vue'
 import useMap from '../../../../../../hooks/webmap/useOlMap'
 import ToolboxContainer from '../../../../../base/ToolboxContainer.vue'
-import { ClipTool } from '../../../../../../../zhd/dist/gis/openlayers/toolbox/spatial-analysis/clip.tool'
+import { IntersectsTool } from '../../../../../../../zhd/dist/gis/openlayers/toolbox/spatial-analysis/intersects.tool'
 import HitTestFromBoundTool from './hit-test-from-bound-tool'
 
 export default defineComponent({
@@ -95,39 +95,39 @@ export default defineComponent({
       })
     }
 
-    const clipTool = new ClipTool(webMap)
+    const intersectsTool = new IntersectsTool(webMap)
     let highlightFeatures = []
-    clipTool.on('tool-done', () => {
-      const geometries = clipTool.getResult().map(feat => feat.getGeometry())
+    intersectsTool.on('tool-done', () => {
+      const geometries = intersectsTool.getResult().map(feat => feat.getGeometry())
       highlightFeatures = webMap.mapElementDisplay.parseHighlightGraphics(geometries)
       webMap.mapElementDisplay.setHighlight(highlightFeatures)
     })
     const selectedBoundary = ref('')
     watch(selectedBoundary, val => {
       const { geometry } = propertieList.find(item => item.name === val)
-      clipTool.setClipGeometry(toRaw(geometry))
+      intersectsTool.setClipGeometry(toRaw(geometry))
     })
     const selectedStatType = ref('')
     watch(selectedStatType, val => {
       if (val === 'stations') {
         const layer = layerOperation.getLayerByName('广佛地铁站点')
         const features = layer.getSource().getFeatures()
-        clipTool.setTarget(features)
+        intersectsTool.setTarget(features)
       } else if (val === 'subway') {
         const layer = layerOperation.getLayerByName('广佛地铁线路')
         const features = layer.getSource().getFeatures()
-        clipTool.setTarget(features)
+        intersectsTool.setTarget(features)
       }
     })
 
     function execute () {
-      clipTool.execute()
+      intersectsTool.execute()
     }
 
     function clear () {
       webMap.mapElementDisplay.removeHighlight(highlightFeatures)
       highlightFeatures = []
-      clipTool.clearResult()
+      intersectsTool.clearResult()
     }
 
     function cancel () {
