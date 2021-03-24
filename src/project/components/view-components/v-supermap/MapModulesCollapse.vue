@@ -13,6 +13,9 @@
       <el-collapse-item title="GeoJSON控制">
         GeoJSONs
       </el-collapse-item>
+      <el-collapse-item title="三维测量">
+        <MeasureTool />
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
@@ -21,12 +24,14 @@
 import { defineComponent } from 'vue'
 import BasemapControl from './map-modules-collapse-items/BasemapControl.vue'
 import Map3dTileControl from './map-modules-collapse-items/Map3dTileControl.vue'
+import MeasureTool from './map-modules-collapse-items/MeasureTool.vue'
 
 export default defineComponent({
   name: 'MapModulesCollapse',
   components: {
     BasemapControl,
     Map3dTileControl,
+    MeasureTool,
   },
   setup () {
 

@@ -6,6 +6,7 @@ import {
   MapEntities,
   MapCamera,
   Map3dTile,
+  MapTools,
 } from '../../../zhd/dist/gis/supermap'
 import appConfig from '../../config/app.config'
 
@@ -31,6 +32,7 @@ export function useCreateWebMap (mapId) {
         .use(new MapEntities())
         .use(new MapCamera())
         .use(new Map3dTile(supermapConfig.map3dTileOptions))
+        .use(new MapTools())
       loaded.value = true
       window.webMap = webMap // 开发模式下使用
     })
