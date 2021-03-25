@@ -41,6 +41,8 @@ export default function (openlayersId, supermapId) {
  * @param { SupermapWebMap } webMapSm
  */
 function linkMap (webMapOl, webMapSm) {
+  webMapSm.camera.moveEnd.removeEventListener(SynchronizeWebMapSm)
+  let olExtentChangeHandler = null
   function SynchronizeWebMapOl () {
     const [lon, lat] = transform(webMapOl.view.getCenter(), webMapOl.view.getProjection(), 'EPSG:4326')
     const zoom = webMapOl.view.getZoom()
@@ -49,8 +51,10 @@ function linkMap (webMapOl, webMapSm) {
       lon, lat, height,
       // () => webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
     )
+    webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
   }
   function SynchronizeWebMapSm () {
+    unByKey(olExtentChangeHandler)
     const [lon, lat] = webMapSm.mapCamera.getCameraLonLat()
     const height = webMapSm.mapCamera.getCameraHeight()
     const center = transform([lon, lat], 'EPSG:4326', webMapOl.view.getProjection())
@@ -58,34 +62,12 @@ function linkMap (webMapOl, webMapSm) {
     webMapOl.view.animate({
       center,
       zoom,
-      duration: 300,
+      duration: 0,
     })
+    olExtentChangeHandler = webMapOl.view.on('change', SynchronizeWebMapOl)
   }
-  // webMapOl.view.on('change', SynchronizeWebMapOl)
+  olExtentChangeHandler = webMapOl.view.on('change', SynchronizeWebMapOl)
   webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
-}
-
-const LINKTABLE = {
-  20 : 112.497220,
-  19 : 225.994440,
-  18 : 451.988880,
-  17 : 902.977761,
-  16 : 1805.955520,
-  15 : 3611.911040,
-  14 : 7222.822090,
-  13 : 14444.644200,
-  12 : 28889.288400,
-  11 : 57779.576700,
-  10 : 115558.153000,
-  9  : 231116.307000,
-  8  : 462232.614000,
-  7  : 924464.227000,
-  6  : 1848929.450000,
-  5  : 3697859.910000,
-  4  : 7395719.820000,
-  3  : 14791438.600000,
-  2  : 29582877.300000,
-  1  : 59165755.500000,
 }
 
 function getHeightFromZoom (zoom) {
@@ -100,7 +82,7 @@ function getHeightFromZoom (zoom) {
 function getZoomFromHeight (height) {
 
   const cosin = ((Math.cos(Math.PI / 180 * (85.362 / 2))) / (Math.sin(Math.PI / 180 * (85.362 / 2))))
-  const zoom = Math.log2(1 / (height / cosin * 40 / 591657550.5)) - 2.5
+  const zoom = Math.log2((cosin * 591657550.5) / (40 * height)) + 2.5
   return zoom
 
 }
