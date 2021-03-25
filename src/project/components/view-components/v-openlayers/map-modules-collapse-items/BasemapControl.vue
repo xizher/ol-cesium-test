@@ -28,15 +28,13 @@
 <script>
 import { } from 'vue'
 import useMap from '../../../../hooks/webmap/useOlMap'
-import { useList, useKey, useVisible } from '../../../../../zhd/dist/gis/openlayers/hooks/basemap.hooks'
+import useBasemap from '../../../../../zhd/dist/gis/openlayers/hooks/basemap.hooks'
 export default {
   name: 'BasemapControl',
   setup () {
 
     const [webMap] = useMap()
-    const [list] = useList(webMap.basemap)
-    const selectedKey = useKey(webMap.basemap)
-    const visible = useVisible(webMap.basemap)
+    const [selectedKey, visible, list] = useBasemap(webMap.basemap)
 
     return {
       list, selectedKey, visible

@@ -32,6 +32,7 @@ import useMap from '../../../../../../hooks/webmap/useOlMap'
 import WfsTransactionInsertTool from './wfs-transaction-insert-tool'
 import WFS from 'ol/format/WFS'
 import axiosHelper from '../../../../../../../zhd/dist/axios-helper/axios-helper'
+import { createAjax } from '../../../../../../../zhd/dist/ajax-helper/ajax-helper'
 
 export default defineComponent({
   name: 'WfsTransaction',
@@ -58,14 +59,21 @@ export default defineComponent({
           }
         )
         const transactStr = (new XMLSerializer()).serializeToString(transactionXml)
-        axiosHelper()
+        // axiosHelper()
+        //   .setUrl('http://wuxizhe.fun:8080/geoserver/wfs')
+        //   .setConfig({ headers: { 'Content-Type': 'text/xml' } })
+        //   .setData(transactStr)
+        //   .mountPost()
+        //   .then(res => {
+        //     console.log(res)
+        //   })
+        createAjax()
           .setUrl('http://wuxizhe.fun:8080/geoserver/wfs')
-          .setConfig({ headers: { 'Content-Type': 'text/xml' } })
+          .setHeaders({ 'Content-Type': 'text/xml' })
           .setData(transactStr)
           .mountPost()
-          .then(res => {
-            console.log(res)
-          })
+          .then(res => res.text())
+          .then(res => console.log(res))
         wfsTransactionInsertTool.clearDrawed()
         webMap.mapTools.setMapTool('default')
       },

@@ -25,15 +25,12 @@
 <script>
 import { } from 'vue'
 import useMap from '../../../../../hooks/webmap/useOlMap'
-import { useEnabled, useType, useClear, useMeasureRemoveTool } from '../../../../../../zhd/dist/gis/openlayers/hooks/measure-tool.hooks'
+import useMeasureTool from '../../../../../../zhd/dist/gis/openlayers/hooks/measure-tool.hooks'
 export default {
   name: 'MapMeasureTool',
   setup () {
     const [webMap] = useMap()
-    const [selectedType, typeList] = useType(webMap.mapTools)
-    const clearMeasure = useClear(webMap.mapTools)
-    const enabled = useEnabled(webMap.mapTools)
-    const removeToolActived = useMeasureRemoveTool(webMap.mapTools)
+    const [selectedType, typeList, enabled, clearMeasure, removeToolActived] = useMeasureTool(webMap.mapTools)
     return {
       selectedType, typeList,
       clearMeasure,

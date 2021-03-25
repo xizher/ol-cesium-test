@@ -25,15 +25,12 @@
 <script>
 import { } from 'vue'
 import useMap from '../../../../../hooks/webmap/useOlMap'
-import useMark, { useEnabled, useClearMark, useMarkRemoveTool } from '../../../../../../zhd/dist/gis/openlayers/hooks/mark-tool.hooks'
+import useMarkTool from '../../../../../../zhd/dist/gis/openlayers/hooks/mark-tool.hooks'
 export default {
   name: 'MapMarkTool',
   setup () {
     const [webMap] = useMap()
-    const [selectedType, typeList] = useMark(webMap.mapTools)
-    const clearMark = useClearMark(webMap.mapTools)
-    const enabled = useEnabled(webMap.mapTools)
-    const removeToolActived = useMarkRemoveTool(webMap.mapTools)
+    const [selectedType, typeList, enabled, clearMark, removeToolActived] = useMarkTool(webMap.mapTools)
     return {
       selectedType, typeList,
       clearMark,
