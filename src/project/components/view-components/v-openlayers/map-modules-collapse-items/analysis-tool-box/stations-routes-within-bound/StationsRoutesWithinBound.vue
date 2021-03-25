@@ -51,6 +51,9 @@
         <el-button @click="clear">
           清理结果
         </el-button>
+        <el-button @click="reset">
+          重置工具
+        </el-button>
       </el-form-item>
     </el-form>
   </ToolboxContainer>
@@ -62,6 +65,7 @@ import useMap from '../../../../../../hooks/webmap/useOlMap'
 import ToolboxContainer from '../../../../../base/ToolboxContainer.vue'
 import { IntersectsTool } from '../../../../../../../zhd/dist/gis/openlayers/toolbox/spatial-analysis/intersects.tool'
 import HitTestFromBoundTool from './hit-test-from-bound-tool'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: 'StationsRoutesWithinBound',
@@ -102,10 +106,15 @@ export default defineComponent({
       highlightFeatures = webMap.mapElementDisplay.parseHighlightGraphics(geometries)
       webMap.mapElementDisplay.setHighlight(highlightFeatures)
     })
+    intersectsTool.on('tool-error', e => {
+      ElMessage.warning(e.message)
+    })
     const selectedBoundary = ref('')
     watch(selectedBoundary, val => {
-      const { geometry } = propertieList.find(item => item.name === val)
-      intersectsTool.setClipGeometry(toRaw(geometry))
+      if (val) {
+        const { geometry } = propertieList.find(item => item.name === val)
+        intersectsTool.setIntersectsGeometry(toRaw(geometry))
+      }
     })
     const selectedStatType = ref('')
     watch(selectedStatType, val => {
@@ -128,6 +137,14 @@ export default defineComponent({
       webMap.mapElementDisplay.removeHighlight(highlightFeatures)
       highlightFeatures = []
       intersectsTool.clearResult()
+    }
+
+    function reset () {
+      webMap.mapElementDisplay.removeHighlight(highlightFeatures)
+      highlightFeatures = []
+      selectedBoundary.value = ''
+      selectedStatType.value = ''
+      intersectsTool.resetTool()
     }
 
     function cancel () {
@@ -162,6 +179,7 @@ export default defineComponent({
       clear,
       cancel,
       selectBound,
+      reset,
     }
   },
 })

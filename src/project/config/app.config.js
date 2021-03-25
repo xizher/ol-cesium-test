@@ -2,7 +2,7 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/supermap',
+      defaultActive: '/openlayers',
       menuItems: [
         { name: 'VOpenlayers', alias: 'Openlayers', path: '/openlayers' },
         { name: 'VCesium', alias: 'Cesium', path: '/cesium' },
@@ -121,6 +121,14 @@ export default {
           {
             type: 'geojson',
             url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:boundary&outputFormat=application/json',
+            clampToGround: true
+          }, {
+            type: 'geojson',
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:subway&outputFormat=application/json',
+            clampToGround: true
+          }, {
+            type: 'geojson',
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json',
             clampToGround: true
           }
         ]
