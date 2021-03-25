@@ -2,7 +2,7 @@ export default {
   appHeaderConfig: {
     title: '基于Openlayers与Cesium的地图API集成测试系统',
     menuConfig: {
-      defaultActive: '/oc-linkage',
+      defaultActive: '/supermap',
       menuItems: [
         { name: 'VOpenlayers', alias: 'Openlayers', path: '/openlayers' },
         { name: 'VCesium', alias: 'Cesium', path: '/cesium' },
@@ -115,6 +115,15 @@ export default {
           { name: '局部楼层模型', url: '/3dtile_test_data/tileset.json', offsetHeight: 3690 }
         ],
         zoomItemName: '局部楼层模型'
+      },
+      mapDataSourceOptions: {
+        dataSourceItems: [
+          {
+            type: 'geojson',
+            url: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:boundary&outputFormat=application/json',
+            clampToGround: true
+          }
+        ]
       }
     },
   },
