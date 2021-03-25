@@ -8,6 +8,12 @@
       {{ item.name }}
     </div>
     <el-switch v-model="item.visible" />
+    <el-button
+      size="mini"
+      @click="item.zoomTo"
+    >
+      定位到
+    </el-button>
   </el-card>
 </template>
 
