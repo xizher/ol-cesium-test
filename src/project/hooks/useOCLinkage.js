@@ -41,20 +41,20 @@ export default function (openlayersId, supermapId) {
  * @param { SupermapWebMap } webMapSm
  */
 function linkMap (webMapOl, webMapSm) {
-  webMapSm.camera.moveEnd.removeEventListener(SynchronizeWebMapSm)
-  let olExtentChangeHandler = null
+  webMapSm.camera.changed.removeEventListener(SynchronizeWebMapSm)
+  let [olDragHandler, olWheelHandler] = [null, null]
   function SynchronizeWebMapOl () {
     const [lon, lat] = transform(webMapOl.view.getCenter(), webMapOl.view.getProjection(), 'EPSG:4326')
     const zoom = webMapOl.view.getZoom()
     const height = getHeightFromZoom(zoom)
     webMapSm.mapCamera.zoomTo(
       lon, lat, height,
-      // () => webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
     )
-    webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
+    webMapSm.camera.changed.addEventListener(SynchronizeWebMapSm)
   }
   function SynchronizeWebMapSm () {
-    unByKey(olExtentChangeHandler)
+    unByKey(olDragHandler)
+    unByKey(olWheelHandler)
     const [lon, lat] = webMapSm.mapCamera.getCameraLonLat()
     const height = webMapSm.mapCamera.getCameraHeight()
     const center = transform([lon, lat], 'EPSG:4326', webMapOl.view.getProjection())
@@ -64,10 +64,12 @@ function linkMap (webMapOl, webMapSm) {
       zoom,
       duration: 0,
     })
-    olExtentChangeHandler = webMapOl.view.on('change', SynchronizeWebMapOl)
+    olWheelHandler = webMapOl.view.on('change:resolution', SynchronizeWebMapOl)
+    olDragHandler = webMapOl.map.on('pointerdrag', SynchronizeWebMapOl)
   }
-  olExtentChangeHandler = webMapOl.view.on('change', SynchronizeWebMapOl)
-  webMapSm.camera.moveEnd.addEventListener(SynchronizeWebMapSm)
+  olWheelHandler = webMapOl.view.on('change:resolution', SynchronizeWebMapOl)
+  olDragHandler = webMapOl.map.on('pointerdrag', SynchronizeWebMapOl)
+  webMapSm.camera.changed.addEventListener(SynchronizeWebMapSm)
 }
 
 function getHeightFromZoom (zoom) {
