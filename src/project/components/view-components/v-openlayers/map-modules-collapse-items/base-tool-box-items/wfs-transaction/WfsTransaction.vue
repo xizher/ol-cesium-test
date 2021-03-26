@@ -12,6 +12,9 @@
       <el-button @click="executeAdd">
         增加
       </el-button>
+      <el-button @click="deleteFeature">
+        点选删除站点
+      </el-button>
       <el-divider>线</el-divider>
       <el-divider>面</el-divider>
     </el-tab-pane>
@@ -30,8 +33,8 @@
 import { defineComponent, onMounted, onUnmounted, reactive, toRaw, toRef, toRefs } from 'vue'
 import useMap from '../../../../../../hooks/webmap/useOlMap'
 import WfsTransactionInsertTool from './wfs-transaction-insert-tool'
+import WfsTransactionDeleteTool from './wfs-transaction-delete-tool'
 import WFS from 'ol/format/WFS'
-import axiosHelper from '../../../../../../../zhd/dist/axios-helper/axios-helper'
 import { createAjax } from '../../../../../../../zhd/dist/ajax-helper/ajax-helper'
 
 export default defineComponent({
@@ -42,31 +45,20 @@ export default defineComponent({
       stationName: '',
       feature: null,
       executeAdd () {
-        /** @type { import('ol/layer/Vector').default */
-        // const layer = webMap.layerOperation.getLayerByName('广佛地铁站点')
-        // const url = layer.getSource().getUrl()
-        // console.log(url)
-        // http://wuxizhe.fun:8080/geoserver/webgis-ol-base/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=webgis-ol-base:stations&outputFormat=application/json
         const feature = toRaw(pointAddState.feature)
         const name = toRaw(pointAddState.stationName)
         feature.setProperties({ name })
+        console.log(feature)
         const transactionXml = new WFS().writeTransaction(
           [feature], null, null, {
-            featureNS: 'http://wuxizhe.fun:8080/geoserver/webgis-ol-base',
-            featurePrefix: 'webgis-ol-base',
+            featureNS: 'webgis-ol-base',
             featureType: 'stations',
-            srsName: 'EPSG:3857'
+            srsName: 'EPSG:3857',
           }
         )
-        const transactStr = (new XMLSerializer()).serializeToString(transactionXml)
-        // axiosHelper()
-        //   .setUrl('http://wuxizhe.fun:8080/geoserver/wfs')
-        //   .setConfig({ headers: { 'Content-Type': 'text/xml' } })
-        //   .setData(transactStr)
-        //   .mountPost()
-        //   .then(res => {
-        //     console.log(res)
-        //   })
+        let transactStr = (new XMLSerializer()).serializeToString(transactionXml)
+        transactStr = transactStr.replace('<geometry>', '<geom>')
+        transactStr = transactStr.replace('</geometry>', '</geom>')
         createAjax()
           .setUrl('http://wuxizhe.fun:8080/geoserver/wfs')
           .setHeaders({ 'Content-Type': 'text/xml' })
@@ -74,6 +66,11 @@ export default defineComponent({
           .mountPost()
           .then(res => res.text())
           .then(res => console.log(res))
+          .then(() => {
+            const layer = webMap.layerOperation.getLayerByName('广佛地铁站点')
+            layer.getSource().refresh()
+            layer.setExtent(layer.getSource().getExtent())
+          })
         wfsTransactionInsertTool.clearDrawed()
         webMap.mapTools.setMapTool('default')
       },
@@ -92,9 +89,23 @@ export default defineComponent({
     onMounted(() => webMap.mapTools.createCustomTool(toolName, wfsTransactionInsertTool))
     onUnmounted(() => webMap.mapTools.deleteTool(toolName))
 
+    const toolName2 = 'wfsTransactionDeleteTool'
+    const wfsTransactionDeleteTool = new WfsTransactionDeleteTool(
+      webMap.map,
+      webMap.view,
+    )
+
+    function deleteFeature () {
+      webMap.mapTools.setMapTool('wfsTransactionDeleteTool')
+    }
+
+    onMounted(() => webMap.mapTools.createCustomTool(toolName2, wfsTransactionDeleteTool))
+    onUnmounted(() => webMap.mapTools.deleteTool(toolName2))
+
     return {
       ...toRefs(pointAddState),
       drawAddFeature,
+      deleteFeature,
     }
   },
 })
