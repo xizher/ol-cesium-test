@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { onMounted } from 'vue'
 import {
   Basemap as OpenlayersBasemap,
@@ -30,7 +31,8 @@ export default function (openlayersId, supermapId) {
 
       window.webMapOl = webMapOl
       window.webMapSm = webMapSm
-      linkMap(webMapOl, webMapSm)
+      // linkMap(webMapOl, webMapSm)
+      linkMap2(webMapOl, webMapSm)
     })
   })
 }
@@ -87,4 +89,37 @@ function getZoomFromHeight (height) {
   const zoom = Math.log2((cosin * 591657550.5) / (40 * height)) + 2.5
   return zoom
 
+}
+
+
+/**
+ *
+ * @param { OpenlayersWebMap } webMapOl
+ * @param { SupermapWebMap } webMapSm
+ */
+function linkMap2 (webMapOl, webMapSm) {
+  webMapSm.camera.changed.removeEventListener(SynchronizeWebMapSm)
+  let [olDragHandler, olWheelHandler] = [null, null]
+  function SynchronizeWebMapOl () {
+    const [xmin, ymin, xmax, ymax] = webMapOl.view.calculateExtent()
+    const [west, south] = transform([xmin, ymin], webMapOl.view.getProjection(), 'EPSG:4326')
+    const [east, north] = transform([xmax, ymax], webMapOl.view.getProjection(), 'EPSG:4326')
+    webMapSm.mapCamera.zoomToExtent(west, south, east, north)
+    webMapSm.camera.changed.addEventListener(SynchronizeWebMapSm)
+  }
+  function SynchronizeWebMapSm () {
+    unByKey(olDragHandler)
+    unByKey(olWheelHandler)
+    const { lonMin, latMin, lonMax, latMax } = webMapSm.mapCamera.getCameraExtent()
+    if (lonMin && latMin && lonMax && latMax) {
+      const [xmin, ymin] = transform([lonMin, latMin], 'EPSG:4326', webMapOl.view.getProjection())
+      const [xmax, ymax] = transform([lonMax, latMax], 'EPSG:4326', webMapOl.view.getProjection())
+      webMapOl.view.fit([xmin, ymin, xmax, ymax], { duration: 0 })
+    }
+    olWheelHandler = webMapOl.view.on('change:resolution', SynchronizeWebMapOl)
+    olDragHandler = webMapOl.map.on('pointerdrag', SynchronizeWebMapOl)
+  }
+  olWheelHandler = webMapOl.view.on('change:resolution', SynchronizeWebMapOl)
+  olDragHandler = webMapOl.map.on('pointerdrag', SynchronizeWebMapOl)
+  webMapSm.camera.changed.addEventListener(SynchronizeWebMapSm)
 }
