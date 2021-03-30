@@ -13,10 +13,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/supermap/, '')
       },
-      '/Cesium': {
-        target: 'http://localhost:9540/Cesium',
+      '/cesium': {
+        target: 'http://localhost/cesium',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/Cesium/, '')
+        rewrite: (path) => path.replace(/^\/cesium/, '')
       },
       '/3dtile_test_data': {
         target: 'http://localhost:9540/3dtile_test_data',
